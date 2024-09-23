@@ -6,7 +6,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     WM_SYSKEYDOWN,
 };
 
-#[derive(strum_macros::AsRefStr, PartialEq, Eq, Hash)]
+#[derive(strum_macros::AsRefStr, PartialEq, Eq, Hash, Clone, Copy)]
 pub enum KeyCode {
     Unknown(u32),
     Escape,
@@ -245,7 +245,7 @@ impl InputKey {
         match wparam.0 as u32 {
             WM_KEYUP | WM_KEYDOWN | WM_SYSKEYDOWN => Some(Self::from_keyboard(wparam, l_param)),
             WM_LBUTTONDBLCLK | WM_LBUTTONUP | WM_LBUTTONDOWN | WM_RBUTTONDBLCLK | WM_RBUTTONUP
-            | WM_RBUTTONDOWN | WM_MOUSEMOVE => Some(Self::from_mouse(wparam, l_param)),
+            | WM_RBUTTONDOWN => Some(Self::from_mouse(wparam, l_param)),
             _ => None,
         }
     }
